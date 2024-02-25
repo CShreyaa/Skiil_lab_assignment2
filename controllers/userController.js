@@ -72,7 +72,6 @@ exports.login = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
-    // Here, you might generate a JWT token and send it back to the client
     res.json({ message: 'Login successful', user });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -83,12 +82,10 @@ exports.login = async (req, res) => {
 exports.register = async (req, res) => {
   const { username, password } = req.body;
   try {
-    // Check if the username already exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res.status(400).json({ message: 'Username already exists' });
     }
-    // Create a new user
     const newUser = new User({ username, password });
     const savedUser = await newUser.save();
     res.status(201).json(savedUser);
